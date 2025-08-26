@@ -1,0 +1,27 @@
+# Core Flask Dependencies
+Flask>=2.3.0
+Werkzeug>=2.3.0
+Jinja2>=3.1.0
+MarkupSafe>=2.1.0
+Itsdangerous>=2.1.0
+Click>=8.1.0
+Blinker>=1.6.0
+
+# AI/ML Dependencies (compatible versions)
+numpy>=1.21.0
+scikit-learn>=1.0.0
+joblib>=1.0.0
+
+# Web Scraping and Analysis
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+dnspython>=2.2.0
+python-whois>=0.7.0
+
+# HTML parsing
+lxml>=4.6.0
+
+# Security
+certifi>=2022.12.7
+urllib3>=1.26.0
+

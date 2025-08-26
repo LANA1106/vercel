@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScamShield - Detect Fake Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --danger: #f72585;
+            --success: #4cc9f0;
+            --warning: #ffbe0b;
+        }
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .hero-pattern {
+            background: radial-gradient(circle at top right, rgba(67, 97, 238, 0.1), rgba(255, 255, 255, 0) 25%), 
+                        radial-gradient(circle at bottom left, rgba(79, 55, 201, 0.1), rgba(255, 255, 255, 0) 25%);
+        }
+        
+        .form-shadow {
+            box-shadow: 0 20px 50px rgba(67, 97, 238, 0.2);
+        }
+        
+        .analyzing-spin {
+            animation: spin 1.5s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .result-show {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .scan-animation {
+            animation: scan 2s infinite alternate;
+        }
+        
+        @keyframes scan {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
+        }
+        
+        .glow-on-hover {
+            transition: all 0.3s;
+        }
+        
+        .glow-on-hover:hover {
+            box-shadow: 0 0 25px rgba(67, 97, 238, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        .product-card {
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="hero-pattern bg-gradient-to-br from-indigo-50 to-blue-50">
+        <nav class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center">
+                    <i class="fas fa-shield-alt text-white text-xl"></i>
+                </div>
+                <span class="ml-2 text-2xl font-bold text-indigo-900">Scam<span class="text-indigo-500">Shield</span></span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="text-indigo-900 hover:text-indigo-700 font-medium">Home</a>
+                <a href="#" class="text-indigo-900 hover:text-indigo-700 font-medium">How It Works</a>
+                <a href="#" class="text-indigo-900 hover:text-indigo-700 font-medium">Examples</a>
+                <a href="#" class="text-indigo-900 hover:text-indigo-700 font-medium">FAQ</a>
+            </div>
+            <button class="md:hidden text-indigo-900">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="max-w-7xl mx-auto px-6 py-16 md:py-24">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 md:pr-10">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-indigo-900 leading-tight">Stop Fake Products Before They Reach You</h1>
+                    <p class="text-lg text-indigo-800 mt-4 mb-8">
+                        Verify your purchases with our advanced detection system. Save money and avoid scams with one simple scan.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium glow-on-hover">
+                            Try Free Scan <i class="fas fa-play ml-2"></i>
+                        </button>
+                        <button class="border-2 border-indigo-600 text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-indigo-50">
+                            How It Works
+                        </button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 mt-12 md:mt-0">
+                    <div class="relative">
+                        <div class="absolute -top-6 -right-6 w-64 h-64 rounded-full bg-indigo-200 opacity-50"></div>
+                        <div class="absolute -bottom-6 -left-6 w-64 h-64 rounded-full bg-purple-200 opacity-50"></div>
+                        <div class="relative bg-white rounded-2xl form-shadow p-6 md:p-8">
+                            <h2 class="text-xl font-bold text-center text-indigo-900 mb-6">Verify Your Product</h2>
+                            <form id="productForm">
+                                <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-1 rounded-xl mb-6">
+                                    <div class="bg-white p-4 rounded-lg text-center">
+                                        <div class="flex justify-center">
+                                            <i class="fas fa-robot text-3xl text-indigo-500 mb-4"></i>
+                                        </div>
+                                        <p class="text-indigo-900 font-medium">AI-Powered Product Analysis</p>
+                                        <p class="text-indigo-500 text-sm">Advanced ML algorithms detect fake products</p>
+                                    </div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="text-indigo-900 font-medium">Product Name</label>
+                                        <input type="text" name="product_name" id="productName" placeholder="Enter product name" class="w-full p-3 border border-indigo-200 rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-indigo-300" required>
+                                    </div>
+                                    <div>
+                                        <label class="text-indigo-900 font-medium">Price ($)</label>
+                                        <input type="number" name="price" id="productPrice" placeholder="Enter product price" step="0.01" class="w-full p-3 border border-indigo-200 rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-indigo-300" required>
+                                    </div>
+                                    <div>
+                                        <label class="text-indigo-900 font-medium">Website URL</label>
+                                        <input type="url" name="url" id="productUrl" placeholder="Paste product page link" class="w-full p-3 border border-indigo-200 rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                                    </div>
+                                    <div>
+                                        <label class="text-indigo-900 font-medium">Description (Optional)</label>
+                                        <textarea name="description" id="productDescription" placeholder="Enter product description" class="w-full p-3 border border-indigo-200 rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-indigo-300" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <button type="submit" id="analyzeBtn" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium mt-6 hover:bg-indigo-700 transition glow-on-hover">
+                                    Analyze Product <i class="fas fa-magnifying-glass ml-2"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Analysis Results Section -->
+    <section id="resultsSection" class="py-16 bg-white" style="display: none;">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-indigo-900 mb-4">Analysis Results</h2>
+            <div id="analysisResults" class="max-w-4xl mx-auto">
+                <!-- Results will be displayed here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-indigo-900 mb-4">How ScamShield Works</h2>
+            <p class="text-lg text-center text-indigo-800 max-w-3xl mx-auto mb-16">
+                Our advanced technology analyzes multiple factors to detect counterfeit products with 98% accuracy
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-8 rounded-2xl product-card">
+                    <div class="w-16 h-16 rounded-xl bg-indigo-600 flex items-center justify-center mb-6">
+                        <i class="fas fa-cloud-upload-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-indigo-900 mb-3">Upload Details</h3>
+                    <p class="text-indigo-800">
+                        Upload product images or enter product details including brand, price and description.
+                    </p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-8 rounded-2xl product-card">
+                    <div class="w-16 h-16 rounded-xl bg-indigo-600 flex items-center justify-center mb-6">
+                        <i class="fas fa-brain text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-indigo-900 mb-3">AI Analysis</h3>
+                    <p class="text-indigo-800">
+                        Our system scans product details against millions of authentic products in our database.
+                    </p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-8 rounded-2xl product-card">
+                    <div class="w-16 h-16 rounded-xl bg-indigo-600 flex items-center justify-center mb-6">
+                        <i class="fas fa-file-shield text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-indigo-900 mb-3">Get Results</h3>
+                    <p class="text-indigo-800">
+                        Receive an instant authenticity report with detailed analysis and confidence score.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analysis Result Example -->
+    <section class="py-16 hero-pattern">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-indigo-900 mb-4">Authenticity Analysis Results</h2>
+            <p class="text-lg text-center text-indigo-800 max-w-3xl mx-auto mb-16">
+                See how ScamShield evaluates products to determine authenticity
+            </p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="bg-white rounded-2xl p-6 shadow-xl result-show">
+                    <div class="flex items-center mb-6">
+                        <div class="mr-4">
+                            <i class="fas fa-headphones text-4xl text-indigo-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-indigo-900">Premium Wireless Headphones</h3>
+                            <p class="text-indigo-600">Retail Price: $259.99</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-5">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-indigo-900 font-medium">Authenticity Score</span>
+                                <span class="font-bold text-green-600">92% Genuine</span>
+                            </div>
+                            <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-green-500 rounded-full" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-indigo-900 font-medium">Price Analysis</span>
+                                <span class="font-bold text-green-600">Appropriate</span>
+                            </div>
+                            <div class="flex items-center text-green-600">
+                                <i class="fas fa-check-circle mr-2"></i>
+                                <span>Price matches authorized retailer pricing</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-indigo-900 font-medium">Image Analysis</span>
+                                <span class="font-bold text-green-600">Authentic</span>
+                            </div>
+                            <div class="flex items-center text-green-600">
+                                <i class="fas fa-check-circle mr-2"></i>
+                                <span>Packaging matches official product design</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-indigo-900 font-medium">Seller Verification</span>
+                                <span class="font-bold text-green-600">Verified</span>
+                            </div>
+                            <div class="flex items-center text-green-600">
+                                <i class="fas fa-check-circle mr-2"></i>
+                                <span>Seller is an authorized retailer</span>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-gray-200">
+                            <div class="bg-green-50 p-4 rounded-xl">
+                                <h4 class="font-bold text-green-800 flex items-center">
+                                    <i class="fas fa-shield-alt mr-2"></i>
+                                    Verification Conclusion
+                                </h4>
+                                <p class="mt-2 text-green-700">
+                                    This product appears to be authentic with strong matching features to genuine products.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="bg-white rounded-2xl p-6 shadow-xl result-show">
+                        <div class="flex items-center mb-6">
+                            <div class="mr-4">
+                                <i class="fas fa-watch text-4xl text-rose-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-indigo-900">Luxury Designer Watch</h3>
+                                <p class="text-rose-600">Retail Price: $89.99</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-indigo-900 font-medium">Authenticity Score</span>
+                                    <span class="font-bold text-rose-600">24% Authentic</span>
+                                </div>
+                                <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                                    <div class="h-full bg-rose-500 rounded-full" style="width: 24%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-indigo-900 font-medium">Price Analysis</span>
+                                    <span class="font-bold text-rose-600">Suspicious</span>
+                                </div>
+                                <div class="flex items-center text-rose-600">
+                                    <i class="fas fa-triangle-exclamation mr-2"></i>
+                                    <span>Price significantly below market value ($850-$1200 range)</span>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-indigo-900 font-medium">Image Analysis</span>
+                                    <span class="font-bold text-rose-600">Counterfeit</span>
+                                </div>
+                                <div class="flex items-center text-rose-600">
+                                    <i class="fas fa-triangle-exclamation mr-2"></i>
+                                    <span>Logo details and markings don't match authentic product</span>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-indigo-900 font-medium">Seller Verification</span>
+                                    <span class="font-bold text-rose-600">Unverified</span>
+                                </div>
+                                <div class="flex items-center text-rose-600">
+                                    <i class="fas fa-triangle-exclamation mr-2"></i>
+                                    <span>No authorized reseller status found</span>
+                                </div>
+                            </div>
+                            
+                            <div class="pt-4 border-t border-gray-200">
+                                <div class="bg-rose-50 p-4 rounded-xl">
+                                    <h4 class="font-bold text-rose-800 flex items-center">
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        Verification Warning
+                                    </h4>
+                                    <p class="mt-2 text-rose-700">
+                                        High risk of counterfeit! Multiple indicators suggest this product is not authentic.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-medium glow-on-hover">
+                    <i class="fas fa-wand-magic-sparkles mr-2"></i>
+                    Try with Your Product
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-indigo-900 mb-4">Why Use ScamShield?</h2>
+            <p class="text-lg text-center text-indigo-800 max-w-3xl mx-auto mb-16">
+                Our specialized system helps you avoid counterfeit products and scams
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-xl border border-indigo-100">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-indigo-900 mb-3">AI-Powered Detection</h3>
+                    <p class="text-indigo-800">
+                        Our system uses advanced machine learning trained on millions of authentic and counterfeit products.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl border border-indigo-100">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-indigo-900 mb-3">Instant Results</h3>
+                    <p class="text-indigo-800">
+                        Get detailed authenticity reports in seconds, not days. Know before you buy.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl border border-indigo-100">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-indigo-900 mb-3">Massive Database</h3>
+                    <p class="text-indigo-800">
+                        Access to updated databases of legitimate sellers and known counterfeit operations.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl border border-indigo-100">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-indigo-900 mb-3">Secure & Private</h3>
+                    <p class="text-indigo-800">
+                        We never store your personal data or purchase history. Your privacy is guaranteed.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl border border-indigo-100">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-indigo-900 mb-3">Global Coverage</h3>
+                    <p class="text-indigo-800">
+                        Detect fakes from any marketplace worldwide, with localized counterfeit knowledge.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl border border-indigo-100">
+                    <div class="text-indigo-600 text-3xl mb-4">
+                        <i class="fas fa-mobile"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-indigo-900 mb-3">Browser Extension</h3>
+                    <p class="text-indigo-800">
+                        Get instant analysis while shopping with our browser plugin (Chrome & Firefox).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16 bg-gradient-to-br from-indigo-50 to-blue-50">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-indigo-900 mb-4">Frequently Asked Questions</h2>
+            <p class="text-lg text-center text-indigo-800 max-w-3xl mx-auto mb-16">
+                Everything you need to know about detecting fake products
+            </p>
+            
+            <div class="space-y-4">
+                <div class="bg-white rounded-xl p-5">
+                    <h3 class="text-lg font-bold text-indigo-900 flex items-center cursor-pointer">
+                        <i class="fas fa-question-circle text-indigo-600 mr-3"></i>
+                        How accurate is your fake product detection?
+                        <i class="fas fa-chevron-down ml-auto text-indigo-400"></i>
+                    </h3>
+                    <div class="pl-9 mt-3 text-indigo-800">
+                        <p>Our system currently achieves 98% accuracy based on validation against known authentic and counterfeit products. Accuracy varies slightly by product category, with electronics and luxury goods being the most accurately detected. We continuously improve our algorithms as new data becomes available.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-5">
+                    <h3 class="text-lg font-bold text-indigo-900 flex items-center cursor-pointer">
+                        <i class="fas fa-question-circle text-indigo-600 mr-3"></i>
+                        What types of products can I verify?
+                        <i class="fas fa-chevron-down ml-auto text-indigo-400"></i>
+                    </h3>
+                    <div class="pl-9 mt-3 text-indigo-800">
+                        <p>We support verification for over 50 product categories including electronics, fashion, cosmetics, pharmaceuticals, collectibles, and luxury goods. Our database is strongest in high-value, high-counterfeit-risk categories, but we're continually expanding to cover more everyday products.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-5">
+                    <h3 class="text-lg font-bold text-indigo-900 flex items-center cursor-pointer">
+                        <i class="fas fa-question-circle text-indigo-600 mr-3"></i>
+                        Do you require access to my personal shopping data?
+                        <i class="fas fa-chevron-down ml-auto text-indigo-400"></i>
+                    </h3>
+                    <div class="pl-9 mt-3 text-indigo-800">
+                        <p>No. ScamShield never accesses your personal shopping data unless you explicitly upload or input product information for verification. We only analyze the product information you provide and do not track your browsing or shopping behavior. Your privacy is our top concern.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-5">
+                    <h3 class="text-lg font-bold text-indigo-900 flex items-center cursor-pointer">
+                        <i class="fas fa-question-circle text-indigo-600 mr-3"></i>
+                        Can I report counterfeit sellers?
+                        <i class="fas fa-chevron-down ml-auto text-indigo-400"></i>
+                    </h3>
+                    <div class="pl-9 mt-3 text-indigo-800">
+                        <p>Yes! After completing an analysis that identifies a counterfeit seller, you can report them directly to relevant consumer protection authorities through our platform. We also maintain a private database of confirmed counterfeit operations to help warn other consumers.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="border-2 border-indigo-600 text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-indigo-50">
+                    See All Questions <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16" style="background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);">
+        <div class="max-w-5xl mx-auto px-6 py-12 text-center">
+            <h2 class="text-3xl font-bold text-white mb-6">Don't Risk Buying Fake Products</h2>
+            <p class="text-xl text-indigo-200 max-w-3xl mx-auto mb-10">
+                Start verifying products today for free. No credit card required.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-bold glow-on-hover hover:bg-indigo-50">
+                    Get Started <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+                <button class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-indigo-700">
+                    View Demo
+                </button>
+            </div>
+            <p class="mt-8 text-indigo-200 text-sm">
+                <i class="fas fa-lock mr-2"></i>100% secure verification process
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-white"></i>
+                        </div>
+                        <span class="ml-2 text-xl font-bold">Scam<span class="text-indigo-400">Shield</span></span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Protecting consumers from counterfeit products since 2023.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Product</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">How It Works</a></li>
+                        <li><a href="#" class="hover:text-white">Browser Extension</a></li>
+                        <li><a href="#" class="hover:text-white">Mobile App</a></li>
+                        <li><a href="#" class="hover:text-white">For Businesses</a></li>
+                        <li><a href="#" class="hover:text-white">Pricing</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Counterfeit Reports</a></li>
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white">Blog</a></li>
+                        <li><a href="#" class="hover:text-white">Counterfeit Alerts</a></li>
+                        <li><a href="#" class="hover:text-white">API Access</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Contact</a></li>
+                        <li><a href="#" class="hover:text-white">Careers</a></li>
+                        <li><a href="#" class="hover:text-white">Partners</a></li>
+                        <li><a href="#" class="hover:text-white">Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-sm text-gray-500 flex flex-col md:flex-row justify-between">
+                <div>&copy; 2023 ScamShield. All rights reserved.</div>
+                <div class="mt-4 md:mt-0">
+                    <a href="#" class="hover:text-gray-400 mr-6">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-400 mr-6">Terms of Service</a>
+                    <a href="#" class="hover:text-gray-400">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fixed Button -->
+    <div class="fixed right-6 bottom-6 z-50">
+        <button class="w-14 h-14 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center shadow-lg glow-on-hover">
+            <i class="fas fa-robot text-xl"></i>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Accordion functionality for FAQ
+            const faqHeaders = document.querySelectorAll('.bg-white.rounded-xl h3');
+            faqHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                    const icon = header.querySelector('.fa-chevron-down');
+                    if (icon) {
+                        icon.classList.toggle('fa-rotate-180');
+                    }
+                });
+            });
+
+            // No file upload needed - AI/ML analysis only
+
+            // Handle form submission
+            const productForm = document.getElementById('productForm');
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            
+            productForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                const originalHtml = analyzeBtn.innerHTML;
+                analyzeBtn.innerHTML = 'Analyzing... <i class="fas fa-spinner analyzing-spin ml-2"></i>';
+                analyzeBtn.disabled = true;
+                
+                try {
+                    // Prepare form data
+                    const formData = new FormData(productForm);
+                    
+                    // Send request to backend
+                    const response = await fetch('/analyze', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        displayResults(data.result);
+                        document.getElementById('resultsSection').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                } catch (error) {
+                    alert('An error occurred while analyzing the product.');
+                    console.error('Error:', error);
+                } finally {
+                    // Reset button
+                    analyzeBtn.innerHTML = originalHtml;
+                    analyzeBtn.disabled = false;
+                }
+            });
+            
+            function displayResults(result) {
+                const resultsSection = document.getElementById('resultsSection');
+                const analysisResults = document.getElementById('analysisResults');
+                
+                // Determine color scheme based on authenticity score
+                const isAuthentic = result.authenticity_score >= 70;
+                const colorClass = isAuthentic ? 'green' : 'rose';
+                const scoreText = isAuthentic ? 'Authentic' : 'Suspicious';
+                
+                analysisResults.innerHTML = `
+                    <div class="bg-white rounded-2xl p-6 shadow-xl result-show">
+                        <div class="flex items-center mb-6">
+                            <div class="mr-4">
+                                <i class="fas fa-box text-4xl text-indigo-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-indigo-900">${document.getElementById('productName').value}</h3>
+                                <p class="text-indigo-600">Price: $${document.getElementById('productPrice').value}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-indigo-900 font-medium">Authenticity Score</span>
+                                    <span class="font-bold text-${colorClass}-600">${result.authenticity_score}% ${scoreText}</span>
+                                </div>
+                                <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                                    <div class="h-full bg-${colorClass}-500 rounded-full" style="width: ${result.authenticity_score}%"></div>
+                                </div>
+                            </div>
+                            
+                            ${result.analysis_details.map(detail => `
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-indigo-900 font-medium">${detail.category}</span>
+                                        <span class="font-bold text-${detail.color}-600">${detail.status}</span>
+                                    </div>
+                                    <div class="flex items-center text-${detail.color}-600">
+                                        <i class="${detail.icon} mr-2"></i>
+                                        <span>${detail.message}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                            
+                            <div class="pt-4 border-t border-gray-200">
+                                <div class="bg-${result.recommendation.color === 'red' ? 'rose' : result.recommendation.color}-50 p-4 rounded-xl">
+                                    <h4 class="font-bold text-${result.recommendation.color === 'red' ? 'rose' : result.recommendation.color}-800 flex items-center">
+                                        <i class="fas fa-${isAuthentic ? 'shield-alt' : 'exclamation-triangle'} mr-2"></i>
+                                        Recommendation: ${result.recommendation.action}
+                                    </h4>
+                                    <p class="mt-2 text-${result.recommendation.color === 'red' ? 'rose' : result.recommendation.color}-700">
+                                        ${result.recommendation.message}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            ${!isAuthentic ? `
+                                <div class="text-center">
+                                    <button onclick="reportProduct()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium">
+                                        <i class="fas fa-flag mr-2"></i>Report Fake Product
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                
+                resultsSection.style.display = 'block';
+            }
+            
+            // Report fake product function
+            window.reportProduct = async function() {
+                try {
+                    const response = await fetch('/report', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            product_name: document.getElementById('productName').value,
+                            price: document.getElementById('productPrice').value,
+                            url: document.getElementById('productUrl').value
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    if (data.success) {
+                        alert(data.message);
+                    }
+                } catch (error) {
+                    alert('Error reporting product.');
+                }
+            };
+        });
+    </script>
+</body>
+</html>

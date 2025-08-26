@@ -1,0 +1,79 @@
+# Example URLs for Testing
+
+# High Risk URLs
+https://paypal-secure-login.com/verify-account
+http://apple-verify-account.tk/update
+https://microsoft-account-security.xyz/confirm
+https://amazon-payment-update.cf/secure
+https://netflix-billing-update.ga/verify
+
+# Medium Risk URLs
+https://secure-login.example.com/verify
+https://account-update.net/confirm
+https://payment-verification.org/process
+https://login-secure.info/validate
+https://update-account.biz/check
+
+# Low Risk URLs
+https://example.com/login
+https://legitimate-site.com/verify
+https://trusted-domain.org/update
+https://secure-website.net/check
+https://valid-domain.com/confirm
+
+# Example Messages for Testing
+
+# High Risk Messages
+"URGENT: Your PayPal account has been suspended due to suspicious activity. Click here to verify your identity: https://paypal-secure-login.com/verify-account"
+
+"CONGRATULATIONS! You've won an iPhone 15! Click now to claim your prize: https://apple-verify-account.tk/update"
+
+"Your Microsoft account needs immediate verification. Unusual activity detected. Click here to secure your account: https://microsoft-account-security.xyz/confirm"
+
+"Your Amazon Prime membership will expire in 24 hours. Update your payment information now: https://amazon-payment-update.cf/secure"
+
+"Your Netflix account has been locked. Verify your billing information to continue watching: https://netflix-billing-update.ga/verify"
+
+# Medium Risk Messages
+"Please verify your account details to ensure continued access to our services. Click here to proceed: https://secure-login.example.com/verify"
+
+"Your account requires an update. Please confirm your information at: https://account-update.net/confirm"
+
+"We noticed unusual activity on your account. Please verify your payment method: https://payment-verification.org/process"
+
+"Your login session has expired. Please validate your credentials: https://login-secure.info/validate"
+
+"Account update required. Please check your information: https://update-account.biz/check"
+
+# Low Risk Messages
+"Please log in to your account to view your recent activity: https://example.com/login"
+
+"Your account verification is pending. Please complete the process: https://legitimate-site.com/verify"
+
+"An update is available for your account. Please review the changes: https://trusted-domain.org/update"
+
+"Please check your account settings for any updates: https://secure-website.net/check"
+
+"Please confirm your email address to complete registration: https://valid-domain.com/confirm"
+
+# Safe Messages (No URLs)
+"Thank you for your recent purchase. Your order has been confirmed."
+
+"We're happy to inform you that your application has been approved."
+
+"Your subscription has been successfully renewed."
+
+"Welcome to our service! We're glad to have you on board."
+
+"Your account has been successfully created."
+
+# Mixed Content Messages
+"Your account needs verification. Please visit our secure portal at https://example.com/login to update your information."
+
+"Congratulations on your recent purchase! Click here https://legitimate-site.com/verify to view your order details."
+
+"We've noticed some unusual activity. Please check your account at https://trusted-domain.org/update for more information."
+
+"Your payment was successful. You can view your receipt at https://secure-website.net/check."
+
+"Please confirm your email address by clicking the link we sent to your inbox." 

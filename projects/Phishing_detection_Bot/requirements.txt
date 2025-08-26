@@ -1,0 +1,19 @@
+# Core dependencies
+nltk>=3.7.0
+transformers>=4.18.0
+torch>=1.11.0
+requests>=2.27.1
+
+# URL analysis
+python-whois>=0.7.3
+cryptography>=36.0.0
+pyOpenSSL>=22.0.0
+
+# Utils
+tqdm>=4.64.0
+numpy>=1.22.3
+pandas>=1.4.2
+
+# Testing
+pytest>=7.1.1
+responses>=0.20.0

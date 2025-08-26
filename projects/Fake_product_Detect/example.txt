@@ -1,0 +1,12 @@
+
+# Format: Product Name,Price,Website URL,Description
+Apple iPhone 14,799,https://www.apple.com/iphone-14,Latest model with A15 Bionic chip and advanced camera system
+Rolex Submariner,15000,https://www.fakewatches.com/rolex-submariner,Replica watch with stainless steel band and automatic movement
+Nike Air Max,120,https://www.nike.com/air-max,Comfortable running shoes with air cushioning
+Gucci Handbag,2000,https://www.fakebags.net/gucci-handbag,High-quality imitation leather handbag
+Adidas Ultraboost,180,https://www.adidas.com/ultraboost,Performance running shoes with responsive cushioning
+RayBan Sunglasses,99,https://www.fakeshades.com/rayban,Cheap replica sunglasses with UV protection
+Apple AirPods Pro,249,https://www.apple.com/airpods-pro,Noise-cancelling wireless earbuds
+LV Wallet,500,https://www.fakewallets.com/lv-wallet,Designer wallet replica with monogram canvas
+Canon EOS R5,3899,https://www.canon.com/eos-r5,Professional mirrorless camera with 8K video
+Samsung Galaxy S23,699,https://www.samsung.com/galaxy-s23,Flagship smartphone with high-resolution display

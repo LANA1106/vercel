@@ -1,0 +1,252 @@
+{
+  "suspicious_domains": [
+    "paypa1.com",
+    "amaz0n.com",
+    "apple-verify.com",
+    "secure-payments.com",
+    "login-verify.com",
+    "account-update.com",
+    "bankofamerica-secure.com",
+    "apple-id-verify.com",
+    "netflix-accounts.com",
+    "support-google.com",
+    "microsoft-verify.com",
+    "instagram-verify.com",
+    "facebook-security.com",
+    "twitter-login.com",
+    "linkedin-career.com",
+    "chase-bank-secure.com",
+    "wells-fargo-login.com",
+    "docusign-document.com",
+    "dropbox-share.com",
+    "spotify-premium.com",
+    "paypal-secure-login.com",
+    "google-docs-share.com",
+    "icloud-verification.com",
+    "ebay-purchase.com",
+    "amazon-shipping.com",
+    "usps-tracking.com",
+    "fedex-delivery.com",
+    "ups-package.com",
+    "dhl-shipment.com",
+    "irs-tax-refund.com"
+  ],
+  
+  "suspicious_tlds": [
+    ".tk",
+    ".top",
+    ".xyz",
+    ".online",
+    ".site",
+    ".cf",
+    ".ga",
+    ".ml",
+    ".gq",
+    ".info",
+    ".icu",
+    ".club",
+    ".work",
+    ".live",
+    ".world",
+    ".stream",
+    ".bid",
+    ".loan",
+    ".webcam",
+    ".pw"
+  ],
+  
+  "urgent_phrases": [
+    "act now",
+    "urgent",
+    "immediate action required",
+    "account suspended",
+    "security alert",
+    "limited time offer",
+    "expires today",
+    "verify immediately",
+    "suspicious activity",
+    "unauthorized access",
+    "final warning",
+    "account blocked",
+    "payment declined",
+    "your account will be terminated",
+    "important notification",
+    "password reset required",
+    "unusual sign-in activity",
+    "verify your identity",
+    "claim your prize",
+    "problem with your payment",
+    "24 hours remaining",
+    "account deletion imminent",
+    "time-sensitive information",
+    "login attempt detected",
+    "action required immediately",
+    "requires your attention"
+  ],
+  
+  "email_subjects": [
+    "Your account has been suspended",
+    "Payment failed - Action required",
+    "Security breach detected",
+    "Verify your information now",
+    "Invoice for your recent purchase",
+    "Package delivery notification",
+    "Update your payment details",
+    "Your password has been reset",
+    "Document shared with you",
+    "Your subscription is expiring",
+    "Unusual login attempt blocked",
+    "Confirm your identity",
+    "Important update about your account",
+    "Your order has been shipped",
+    "Account verification required",
+    "Failed delivery attempt",
+    "Tax refund notification",
+    "Suspicious transaction detected",
+    "Your account access will be revoked",
+    "New sign-in from unknown device"
+  ],
+  
+  "spoofing_techniques": [
+    "typosquatting",
+    "homograph_attack",
+    "subdomain_abuse",
+    "lookalike_domains",
+    "url_shortening",
+    "hidden_redirects",
+    "javascript_obfuscation",
+    "data_url_scheme",
+    "unicode_manipulation",
+    "zero-width_characters",
+    "html_character_encoding",
+    "double_extension",
+    "https_abuse",
+    "email_header_forgery",
+    "sender_display_name_spoofing",
+    "fake_security_seals"
+  ],
+  
+  "red_flags": {
+    "poor_grammar": [
+      "kindly verify",
+      "Dear valued customer",
+      "Yours bank",
+      "We detected suspicious on your account",
+      "Please to click",
+      "We are appreciate your cooperation",
+      "Urgent respond needed",
+      "Failure to compliance",
+      "Sorry for inconveniency",
+      "Please do the needful"
+    ],
+    "unrealistic_threats": [
+      "account will be permanently deleted",
+      "legal action will be taken",
+      "police will be notified",
+      "all your data will be lost",
+      "will face criminal charges",
+      "your credit score will be impacted",
+      "your identity will be compromised",
+      "financial penalties will be imposed",
+      "services will be permanently terminated",
+      "public disclosure of information"
+    ],
+    "request_for_personal_info": [
+      "confirm your social security number",
+      "update your credit card details",
+      "verify your PIN",
+      "send your password",
+      "confirm your mother's maiden name",
+      "provide a copy of your ID",
+      "enter your bank account number",
+      "confirm your date of birth",
+      "verify your security questions",
+      "enter your tax identification number"
+    ]
+  },
+  
+  "social_engineering_tactics": {
+    "authority": [
+      "official notice from IT department",
+      "message from CEO",
+      "bank security team alert",
+      "government notification",
+      "law enforcement request"
+    ],
+    "scarcity": [
+      "only 3 spots remaining",
+      "limited time offer",
+      "exclusive to selected customers",
+      "first 100 respondents only",
+      "while supplies last"
+    ],
+    "reciprocity": [
+      "free gift with verification",
+      "bonus credit after confirmation",
+      "discount for updating information",
+      "reward for participating in survey",
+      "complimentary service for account review"
+    ],
+    "social_proof": [
+      "thousands of customers have already verified",
+      "join 1 million satisfied users",
+      "most clients have updated their information",
+      "95% of users have secured their accounts",
+      "recommended by security experts"
+    ],
+    "fear": [
+      "security breach detected",
+      "unauthorized access attempt",
+      "potential fraud on your account",
+      "suspicious login from foreign location",
+      "unusual transaction flagged"
+    ]
+  },
+  
+  "attachment_types": [
+    ".exe",
+    ".zip",
+    ".doc",
+    ".docm",
+    ".xls",
+    ".xlsm",
+    ".pdf",
+    ".js",
+    ".vbs",
+    ".hta",
+    ".scr",
+    ".jar",
+    ".bat",
+    ".cmd",
+    ".ps1",
+    ".wsf",
+    ".jse",
+    ".lnk"
+  ],
+  
+  "mitigation_strategies": {
+    "technical": [
+      "email filtering",
+      "url scanning",
+      "attachment analysis",
+      "domain authentication",
+      "anti-spoofing controls",
+      "multi-factor authentication",
+      "endpoint protection"
+    ],
+    "training": [
+      "security awareness programs",
+      "phishing simulations",
+      "suspicious email reporting",
+      "verification protocol training",
+      "credential management education"
+    ],
+    "organizational": [
+      "incident response plan",
+      "clear communication channels",
+      "security policy enforcement",
+      "vendor verification process",
+      "regular security audits"
+    ]
+  }
+}
