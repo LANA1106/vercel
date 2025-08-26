@@ -19,7 +19,7 @@ Build a scanner to detect common web app vulnerabilities like XSS, SQLi, CSRF.
 ## Setup
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/WebVulnScanner.git
+   Clone This Repo &
    cd WebVulnScanner
    ```
 2. Install dependencies:
@@ -30,7 +30,7 @@ Build a scanner to detect common web app vulnerabilities like XSS, SQLi, CSRF.
    ```bash
    python app.py
    ```
-4. Open your browser and go to [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+4. Open your browser and go to [http://localhost:5000/](http://localhost:5000/)
 
 ## Usage
 - Enter the target URL in the form and start the scan.
@@ -38,4 +38,5 @@ Build a scanner to detect common web app vulnerabilities like XSS, SQLi, CSRF.
 
  
 ## License
+
 MIT 
